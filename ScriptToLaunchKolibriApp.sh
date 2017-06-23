@@ -6,6 +6,9 @@ chmod +x kolibri-v0.4.0-beta10.pex
  
 #import a test channel
 ./kolibri-v0.4.0-beta10.pex manage importchannel -- network abb42df1203f4043a7b6e430de257d90
+
+#import a test channel content
+./kolibri-v0.4.0-beta10.pex manage importcontent -- network abb42df1203f4043a7b6e430de257d90
  
 # start the server after which the server will be launched at port localhost:8080 
 ./kolibri-v0.4.0-beta10.pex start
