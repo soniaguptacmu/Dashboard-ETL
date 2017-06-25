@@ -6,7 +6,7 @@ directoryPath =.
 extension=sqlite3
 
 [ConnectionString]
-sinkDbConnectionString =<password>@localhost/<databaseName>
+sinkDbConnectionString =Expect@1234@localhost/hell
 
 [SourceDatabase]
 names1='kolibriauth_facilityuser,kolibriauth_facilitydataset,kolibriauth_collection,kolibriauth_membership,kolibriauth_role,logger_masterylog,logger_attemptlog,logger_contentsummarylog'

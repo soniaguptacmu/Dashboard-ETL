@@ -6,8 +6,10 @@ source bin/activate
 pip3 install sqlalchemy
 pip3 install schedule
 pip3 install PyMySQL
+
+# creating requirments.txt file which will have all dependencies that you installed using pip3 install
 pip3 freeze > requirements.txt
 
-# installing package using requirements.txt
+# installing all packages using requirements.txt
 pip3 install -r requirements.txt
 
