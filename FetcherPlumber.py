@@ -1,13 +1,19 @@
 from os import walk
 import configparser
+import logging
+import sys
+import time
 
 from Fetcher import Fetcher
 
 
+
 class FetcherPlumber(object):
+
     # perform extract transform load from source kolibri db to staging db of Nalanda
     def SourceToStagingJob(self):
         try:
+
             # read from configuration file
             config = configparser.ConfigParser()
             config.read('Config')
@@ -16,6 +22,9 @@ class FetcherPlumber(object):
             sinkDbConnectionString = 'mysql+pymysql://root:'+config.get('ConnectionString', 'sinkDbConnectionString')
             sourceTableNames = config.get('SourceDatabase', 'names')
             extension = config.get('SourceLocation', 'extension')
+
+            logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
+            logging.info('current time is: ' + time.strftime("%c"))
 
             dbFiles = self.fetchFilesFromFirectory(filePath, extension)
             sourceTableNameList = sourceTableNames.split(",")
@@ -42,12 +51,15 @@ class FetcherPlumber(object):
                         obj.cleanSink(sourcedbconnectionstring, sourceTableName, sinkDbConnectionString)
                         isCleaned=1
 
-
                     obj.transferSourceToSink(sourcedbconnectionstring, sourceTableName, sinkDbConnectionString)
 
+            logging.info('Successfully fetched all the data!')
 
         except Exception as e:
-            print(e)
+            print(sys.exc_info()[0])
+            logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
+            logging.error('There is an exception in the code FetcherPlumber!')
+            logging.error(e)
 
     # fetch all sqlite files from the directory
     def fetchFilesFromFirectory(self, directoryPath, extension):

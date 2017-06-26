@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy import MetaData, Table
 from sqlalchemy import orm
-
+import logging
 
 class Fetcher(object):
 
@@ -49,5 +49,7 @@ class Fetcher(object):
                 sinkConnection.execute(EntityTable.insert(), row)
 
         except Exception as e:
-            print(e)
-            # todo: log into logfile
+            logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
+            logging.error('There is an exception in the code Fetcher!')
+            logging.error(e)
+
