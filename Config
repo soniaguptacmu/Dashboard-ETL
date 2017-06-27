@@ -5,8 +5,8 @@ level=20
 frequencyMinutes = 1
 
 [SourceLocation]
-logdirectoryPath =.
-contentdirectorypath=.
+logdirectoryPath =LogData/
+contentdirectorypath=ContentData/
 
 extension=sqlite3
 

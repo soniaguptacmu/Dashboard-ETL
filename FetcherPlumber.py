@@ -12,7 +12,7 @@ class FetcherPlumber(object):
     def SourceToStagingJob(self):
 
         logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
-        logging.info('current time is: ' + time.strftime("%c"))
+        logging.info('New Job..Current time is: ' + time.strftime("%c"))
 
         # read from configuration file
         config = configparser.ConfigParser()
@@ -22,9 +22,19 @@ class FetcherPlumber(object):
         logfilePath = config.get('SourceLocation', 'logdirectoryPath')
         logsourceTableNames = config.get('SourceDatabase', 'logtablenames')
 
+        print('log table names')
+        print(logsourceTableNames)
+        logging.info('log table names')
+        logging.info(logsourceTableNames)
+
         # content related
         contentfilePath = config.get('SourceLocation', 'contentdirectorypath')
         contentsourceTableNames = config.get('SourceDatabase', 'contentnames')
+
+        print('content table names')
+        print(contentfilePath)
+        logging.info('content table names')
+        logging.info(contentfilePath)
 
         sinkDbConnectionString = 'mysql+pymysql://root:' + config.get('ConnectionString',
                                                                       'sinkDbConnectionString')
@@ -33,8 +43,14 @@ class FetcherPlumber(object):
         # load content data
         self.LoadSourceToStaging(contentfilePath,sinkDbConnectionString,contentsourceTableNames,extension)
 
+        print('Successfully fetched all the content data!')
+        logging.info('Successfully fetched all the data!')
+
         # load log data
         self.LoadSourceToStaging(logfilePath,sinkDbConnectionString,logsourceTableNames,extension)
+
+        print('Successfully fetched all the log data!')
+        logging.info('Successfully fetched all the log data!')
 
     def LoadSourceToStaging(self, filePath,sinkDbConnectionString,sourceTableNames,extension):
         try:
@@ -56,8 +72,10 @@ class FetcherPlumber(object):
             for sourceTableName in sourceTableNameList:
                 obj = Fetcher()
                 isCleaned = 0
+
                 for dbfile in dbFiles:
 
+                    dbfile=filePath+dbfile
                     sourcedbconnectionstring = 'sqlite:///' + dbfile
 
                     if (isCleaned == 0):
@@ -66,13 +84,12 @@ class FetcherPlumber(object):
 
                     obj.transferSourceToSink(sourcedbconnectionstring, sourceTableName, sinkDbConnectionString)
 
-            logging.info('Successfully fetched all the data!')
-
         except Exception as e:
             logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
             logging.error('There is an exception in the code FetcherPlumber!')
             logging.error(e)
             logging.error(traceback.format_exc())
+            raise
 
     # fetch all sqlite files from the directory
     def fetchFilesFromFirectory(self, directoryPath, extension):

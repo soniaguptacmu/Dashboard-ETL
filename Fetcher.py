@@ -54,5 +54,6 @@ class Fetcher(object):
             logging.error('There is an exception in the code Fetcher!')
             logging.error(e)
             logging.error(traceback.format_exc())
+            raise
 
 
