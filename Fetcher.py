@@ -24,7 +24,8 @@ class Fetcher(object):
 
         try:
             # Establish source connection
-            sourceDbEngine = create_engine(sourceDbConnectionString, encoding='utf-8')
+            sourceDbEngine = create_engine(sourceDbConnectionString)
+            # sourceDbEngine = create_engine(sourceDbConnectionString)
             sourceDbEngine.echo = False
             metadata = MetaData(bind=sourceDbEngine)
 
@@ -32,7 +33,8 @@ class Fetcher(object):
             EntityTable = Table(sourceTableName, metadata, autoload=True)
 
             # establish sink connection
-            sinkDbEngine = create_engine(sinkDbConnectionString, encoding='utf-8')
+            sinkDbEngine = create_engine(sinkDbConnectionString)
+
             sinkConnection = sinkDbEngine.connect()
 
             # These are the empty classes that will become our data classes
@@ -48,6 +50,7 @@ class Fetcher(object):
             # Insert data from source db to sink db
             for row in Entity:
                 sinkConnection.execute(EntityTable.insert(), row)
+
 
         except Exception as e:
             logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)

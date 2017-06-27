@@ -96,7 +96,7 @@ class FetcherPlumber(object):
         f = []
         for (dirpath, dirnames, filenames) in walk(directoryPath):
             for file in filenames:
-                if file.endswith(extension):
+                #if file.endswith(extension):
                     f.append(file)
 
         return f

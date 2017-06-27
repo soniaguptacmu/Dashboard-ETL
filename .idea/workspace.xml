@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d3519022-0fa7-4de6-98fe-c9b3e60862f1" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/e890b1acbcad44939688dbb1b7dde2e5.sqlite3" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Config" afterPath="$PROJECT_DIR$/Config" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Fetcher.py" afterPath="$PROJECT_DIR$/Fetcher.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FetcherPlumber.py" afterPath="$PROJECT_DIR$/FetcherPlumber.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Schedular.py" afterPath="$PROJECT_DIR$/Schedular.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,8 +24,8 @@
       <file leaf-file-name="Fetcher.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Fetcher.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="31" column="72" lean-forward="false" selection-start-line="31" selection-start-column="68" selection-end-line="31" selection-end-column="72" />
+            <state relative-caret-position="585">
+              <caret line="39" column="75" lean-forward="true" selection-start-line="39" selection-start-column="75" selection-end-line="39" selection-end-column="75" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -33,18 +36,18 @@
       <file leaf-file-name="Config" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Config">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="33" lean-forward="false" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
+            <state relative-caret-position="285">
+              <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FetcherPlumber.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="FetcherPlumber.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FetcherPlumber.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="74" column="0" lean-forward="true" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+            <state relative-caret-position="-250">
+              <caret line="62" column="62" lean-forward="true" selection-start-line="62" selection-start-column="62" selection-end-line="62" selection-end-column="62" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -52,64 +55,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Schedular.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Schedular.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Schedular.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="16" column="10" lean-forward="false" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+            <state relative-caret-position="225">
+              <caret line="19" column="39" lean-forward="true" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Content.sql" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Data/Content.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Fetcher.log" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Fetcher.log">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2248">
-              <caret line="1341" column="25" lean-forward="false" selection-start-line="1341" selection-start-column="25" selection-end-line="1341" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="selectable.py" pinned="false" current-in-tab="false">
-        <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/sqlalchemy/sql/selectable.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3537">
-              <caret line="397" column="8" lean-forward="false" selection-start-line="397" selection-start-column="8" selection-end-line="397" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UsersAndLogs.sql" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Schema/UsersAndLogs.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Content.sql" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Schema/Content.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -129,6 +82,8 @@
       <find>fetchFilesFromFirectory</find>
       <find>prin</find>
       <find>print</find>
+      <find>Incorrect string value</find>
+      <find>utf</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -147,11 +102,11 @@
         <option value="$PROJECT_DIR$/FetcherInfo.log" />
         <option value="$PROJECT_DIR$/Transformer.py" />
         <option value="$PROJECT_DIR$/Schema/Content.sql" />
-        <option value="$PROJECT_DIR$/Fetcher.py" />
-        <option value="$PROJECT_DIR$/Config" />
-        <option value="$PROJECT_DIR$/FetcherPlumber.py" />
-        <option value="$PROJECT_DIR$/Fetcher.log" />
         <option value="$PROJECT_DIR$/Schedular.py" />
+        <option value="$PROJECT_DIR$/Fetcher.py" />
+        <option value="$PROJECT_DIR$/Fetcher.log" />
+        <option value="$PROJECT_DIR$/FetcherPlumber.py" />
+        <option value="$PROJECT_DIR$/Config" />
       </list>
     </option>
   </component>
@@ -201,6 +156,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Kolibri-ETL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kolibri-ETL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kolibri-ETL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Schema" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -563,7 +532,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Fetcher.py</url>
-          <line>49</line>
+          <line>51</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -873,26 +842,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/sqlalchemy/sql/selectable.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3537">
-          <caret line="397" column="8" lean-forward="false" selection-start-line="397" selection-start-column="8" selection-end-line="397" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/eb99f209f9c34ba192f6e695aeb37e4f.sqlite3">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Schema/UsersAndLogs.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -913,13 +866,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Fetcher.py">
+    <entry file="file://$PROJECT_DIR$/Schema/UsersAndLogs.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="72" lean-forward="false" selection-start-line="31" selection-start-column="68" selection-end-line="31" selection-end-column="72" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="150">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -931,13 +882,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FetcherPlumber.py">
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/sqlalchemy/sql/selectable.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="74" column="0" lean-forward="true" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="3537">
+          <caret line="397" column="8" lean-forward="false" selection-start-line="397" selection-start-column="8" selection-end-line="397" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Fetcher.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2300">
+          <caret line="4575" column="0" lean-forward="true" selection-start-line="4575" selection-start-column="0" selection-end-line="4575" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -949,28 +906,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Fetcher.log">
+    <entry file="file://$PROJECT_DIR$/Schedular.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2248">
-          <caret line="1341" column="25" lean-forward="false" selection-start-line="1341" selection-start-column="25" selection-end-line="1341" selection-end-column="25" />
-          <folding />
+        <state relative-caret-position="225">
+          <caret line="19" column="39" lean-forward="true" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Fetcher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="39" column="75" lean-forward="true" selection-start-line="39" selection-start-column="75" selection-end-line="39" selection-end-column="75" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Config">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="33" lean-forward="false" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
+        <state relative-caret-position="285">
+          <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Schedular.py">
+    <entry file="file://$PROJECT_DIR$/FetcherPlumber.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="16" column="10" lean-forward="false" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+        <state relative-caret-position="-250">
+          <caret line="62" column="62" lean-forward="true" selection-start-line="62" selection-start-column="62" selection-end-line="62" selection-end-column="62" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
