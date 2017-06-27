@@ -53,7 +53,6 @@ class Fetcher(object):
             logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
             logging.error('There is an exception in the code Fetcher!')
             logging.error(e)
-            logging.error(traceback.print_exc())
-            logging.error(sys.exc_info()[0])
+            logging.error(traceback.format_exc())
 
 

@@ -58,7 +58,6 @@ class FetcherPlumber(object):
                 isCleaned = 0
                 for dbfile in dbFiles:
 
-                    print(dbfile)
                     sourcedbconnectionstring = 'sqlite:///' + dbfile
 
                     if (isCleaned == 0):
@@ -70,11 +69,10 @@ class FetcherPlumber(object):
             logging.info('Successfully fetched all the data!')
 
         except Exception as e:
-            print(sys.exc_info()[0])
             logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
             logging.error('There is an exception in the code FetcherPlumber!')
             logging.error(e)
-            logging.error(traceback.print_exc())
+            logging.error(traceback.format_exc())
 
     # fetch all sqlite files from the directory
     def fetchFilesFromFirectory(self, directoryPath, extension):
