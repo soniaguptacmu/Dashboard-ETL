@@ -3,28 +3,41 @@ import configparser
 import logging
 import sys
 import time
+import traceback
 
 from Fetcher import Fetcher
 
-
-
 class FetcherPlumber(object):
 
-    # perform extract transform load from source kolibri db to staging db of Nalanda
     def SourceToStagingJob(self):
+
+        logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
+        logging.info('current time is: ' + time.strftime("%c"))
+
+        # read from configuration file
+        config = configparser.ConfigParser()
+        config.read('Config')
+
+        # log related
+        logfilePath = config.get('SourceLocation', 'logdirectoryPath')
+        logsourceTableNames = config.get('SourceDatabase', 'logtablenames')
+
+        # content related
+        contentfilePath = config.get('SourceLocation', 'contentdirectorypath')
+        contentsourceTableNames = config.get('SourceDatabase', 'contentnames')
+
+        sinkDbConnectionString = 'mysql+pymysql://root:' + config.get('ConnectionString',
+                                                                      'sinkDbConnectionString')
+        extension = config.get('SourceLocation', 'extension')
+
+        # load content data
+        self.LoadSourceToStaging(contentfilePath,sinkDbConnectionString,contentsourceTableNames,extension)
+
+        # load log data
+        self.LoadSourceToStaging(logfilePath,sinkDbConnectionString,logsourceTableNames,extension)
+
+    def LoadSourceToStaging(self, filePath,sinkDbConnectionString,sourceTableNames,extension):
         try:
-
-            # read from configuration file
-            config = configparser.ConfigParser()
-            config.read('Config')
-
-            filePath = config.get('SourceLocation', 'directoryPath')
-            sinkDbConnectionString = 'mysql+pymysql://root:'+config.get('ConnectionString', 'sinkDbConnectionString')
-            sourceTableNames = config.get('SourceDatabase', 'names')
-            extension = config.get('SourceLocation', 'extension')
-
-            logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
-            logging.info('current time is: ' + time.strftime("%c"))
 
             dbFiles = self.fetchFilesFromFirectory(filePath, extension)
             sourceTableNameList = sourceTableNames.split(",")
@@ -42,14 +55,15 @@ class FetcherPlumber(object):
             # perform transfer of data from source db to sink db
             for sourceTableName in sourceTableNameList:
                 obj = Fetcher()
-                isCleaned=0
+                isCleaned = 0
                 for dbfile in dbFiles:
 
+                    print(dbfile)
                     sourcedbconnectionstring = 'sqlite:///' + dbfile
 
-                    if(isCleaned==0):
+                    if (isCleaned == 0):
                         obj.cleanSink(sourcedbconnectionstring, sourceTableName, sinkDbConnectionString)
-                        isCleaned=1
+                        isCleaned = 1
 
                     obj.transferSourceToSink(sourcedbconnectionstring, sourceTableName, sinkDbConnectionString)
 
@@ -60,11 +74,12 @@ class FetcherPlumber(object):
             logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
             logging.error('There is an exception in the code FetcherPlumber!')
             logging.error(e)
+            logging.error(traceback.print_exc())
 
     # fetch all sqlite files from the directory
     def fetchFilesFromFirectory(self, directoryPath, extension):
         f = []
-        for (dirpath, dirnames, filenames) in walk('.'):
+        for (dirpath, dirnames, filenames) in walk(directoryPath):
             for file in filenames:
                 if file.endswith(extension):
                     f.append(file)
