@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy import MetaData, Table
 from sqlalchemy import orm
-
-
+import logging
+import traceback
+import sys
 class Fetcher(object):
 
     def cleanSink(self, sourceDbConnectionString, sourceTableName, sinkDbConnectionString):
@@ -24,6 +25,7 @@ class Fetcher(object):
         try:
             # Establish source connection
             sourceDbEngine = create_engine(sourceDbConnectionString)
+            # sourceDbEngine = create_engine(sourceDbConnectionString)
             sourceDbEngine.echo = False
             metadata = MetaData(bind=sourceDbEngine)
 
@@ -32,13 +34,14 @@ class Fetcher(object):
 
             # establish sink connection
             sinkDbEngine = create_engine(sinkDbConnectionString)
+
             sinkConnection = sinkDbEngine.connect()
 
             # These are the empty classes that will become our data classes
             class Entity(object):
                 pass
 
-            # Map data structure of source source table to Entity class
+            # Map data structure of source  table to Entity class
             orm.mapper(Entity, EntityTable)
 
             # Fetch all data from source table
@@ -48,6 +51,12 @@ class Fetcher(object):
             for row in Entity:
                 sinkConnection.execute(EntityTable.insert(), row)
 
+
         except Exception as e:
-            print(e)
-            # todo: log into logfile
+            logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
+            logging.error('There is an exception in the code Fetcher!')
+            logging.error(e)
+            logging.error(traceback.format_exc())
+            raise
+
+

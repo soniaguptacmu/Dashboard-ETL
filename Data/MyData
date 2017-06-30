@@ -1,0 +1,124 @@
+CREATE TABLE content_contentnode (id char(32) NOT NULL PRIMARY KEY, title varchar(200) NOT NULL, content_id char(32) NOT NULL, 
+	description varchar(400) NULL, sort_order real NULL, license_owner varchar(200) NOT NULL, 
+	author varchar(200) NOT NULL, kind varchar(200) NOT NULL, available bool NOT NULL, stemmed_metaphone varchar(1800) NOT NULL, 
+	lft integer unsigned NOT NULL, rght integer unsigned NOT NULL, tree_id integer unsigned NOT NULL, 
+	level integer unsigned NOT NULL, 
+	license_id integer NULL REFERENCES content_license (id), 
+	parent_id char(32) NULL REFERENCES content_contentnode (id));
+
+INSERT INTO content_contentnode VALUES('eb99f209f9c34ba192f6e695aeb37e4f','Rajasthan state English Medium',
+	'eb99f209f9c34ba192f6e695aeb37e4f','',0.0,'','','topic',1,'RJS0N RHSTN STT ANKLX ANLX MTM',1,3362,1,
+	0,
+	1,
+	NULL);
+
+INSERT INTO content_contentnode VALUES('8625465553614426844be5d071b531d6','Class 5 (India)','d423fe596e475addb9af05484c2372c4','',
+	2.0,'','','topic',1,'KLS NT',2,281,1,
+	1,
+	NULL,
+	'eb99f209f9c34ba192f6e695aeb37e4f');
+
+INSERT INTO content_contentnode VALUES('566c04528fc7459c814e133e582e04cf','Patterns','1b599ee8ca6e5d4f952a20b138984423','A form or design occurring in the world that repeats itself or takes a predictable direction is a pattern! In this chapter we will learn more about the fun world of patterns!',7.0,'','','topic',1,'PTRN A FRM AR TSN TSKN AKR AN 0 T ARLT FRLT 0T TT RPT ATSLF AR TK A PRTKT TRKT AS A PTRNN AN 0S TS XPTR A F AL FL LRN MR APT 0 T FN ARLT FRLT AF PTRNSS',151,166,1,
+	2,
+	NULL,
+	'8625465553614426844be5d071b531d6');
+
+INSERT INTO content_contentnode VALUES('8de4e0371e19426ab929461b80b7912e','Parts and wholes','369e5d13befa57b5a14d2ccedb2f7e0c',
+	'A fraction is a small or tiny part, amount, or proportion of something. In this chapter we will explore this term further and
+	 learn more about fractions, proportions, mixed numbers, visualization, and rate based problems.',4.0,'','','topic',1,
+	 'PRT ANT AL A FRKT AS A SML XML AR TN PRTT AMNTT AR PRPRT AF SM0NKK SMTNKK AN 0S TS XPT A F AL FL AKSPLR 0S TS TRM FR0R FRTR ANT LRN MR APT 
+	 FRKXNSS PRPRXNSS MKS NMPRSS FSLSXNN ANT RT PS PRPLMSS',69,124,1,
+	 2,
+	 NULL,
+	 '8625465553614426844be5d071b531d6');
+
+INSERT INTO content_contentnode VALUES('4b739fcdf5994b76b7fb11c00090d17d',
+	'Fraction comparisons and equivalent fractions','22c8e0e613115bca86a648f487abfc7f',
+	'In this topic we will learn about equivalent fractions, addition and subtraction of mixed numbers, visual representation of equivalent fractions,
+	 proportions, proportional relationships, ordering fractions, comparing fractions, and we will increase our understanding of this concept by practicing problems 
+	 based on unknown proportions, cut and copy fractions, rate, etc.',1.0,'','','topic',1,
+	 'FRKXN KMPRSN ANT AKFL FRKXN AN 0S TS TPK A F AL FL LRN APT AKFL FRKXNSS ATT ANT SPTRKT AF MKS NMPRSS FSL RPRSNT AF AKFL FRKXNSS PRPRXNSS PRPRT RLXNXPSS ARTR FRKXNSS KMPR FRKXNSS ANT A F AL FL ANKRS AR ANTRSTNT AF 0S TS KNSPT P PRKTK PRPLM PS AN ANKNN PRPRXNSS KT ANT KP FRKXNSS RT ATKK',
+	 70,123,
+	 1,
+	 3,
+	 NULL,
+	 '8de4e0371e19426ab929461b80b7912e');
+
+INSERT INTO content_contentnode VALUES('469eae6e2b014fbfb9a3c2ce6cc19c64','Compare fractions with the same denominator',
+	'f89ebd6c5699592b90b289d649976031','Compare two fractions that have the same denominator using greater and less than symbols.',16.0,'',
+	'','exercise',1,'KMPR FRKXN A0 FT 0 T SM TNMN KMPR T FRKXN 0T TT HF 0 T SM TNMN AS KRT ANT LS 0N TN SMPLSS',
+	101,102,1,
+	4,
+	3,
+	'4b739fcdf5994b76b7fb11c00090d17d');
+INSERT INTO content_contentnode VALUES('55b04a72d75b46b5bfbf711b87ac4e39','Compare fractions with the same numerator','5964b13e025259de8eebaa0b1374d159',
+	'Compare two fractions that have the same numerator using greater and less than symbols.',17.0,'','','exercise',1,
+	'KMPR FRKXN A0 FT 0 T SM NMR KMPR T FRKXN 0T TT HF 0 T SM NMR AS KRT ANT LS 0N TN SMPLSS',
+	103,104,1,
+	4,
+	3,
+	'4b739fcdf5994b76b7fb11c00090d17d');
+INSERT INTO content_contentnode VALUES('bd660b472d6f4b27847b08e027c885cb','Compare fractions with the same numerator or denominator',
+	'b74b4a47a19f5da1ad44b65019ddf467','Compare two fractions that have either the same numerator or denominator.  ',18.0,'','','exercise',1,
+	'KMPR FRKXN A0 FT 0 T SM NMR AR TNMN KMPR T FRKXN 0T TT HF A0R ATR 0 T SM NMR AR TNMNTRR',
+	105,106,1,
+	4,
+	3,
+	'4b739fcdf5994b76b7fb11c00090d17d');
+
+
+
+CREATE TABLE logger_contentsummarylog (
+	id char(32) NOT NULL PRIMARY KEY,
+ _morango_dirty_bit bool NOT NULL, 
+	_morango_source_id varchar(96) NOT NULL,
+	 _morango_partition varchar(128) NOT NULL, 
+	 content_id char(32) NOT NULL,
+	 channel_id char(32) NOT NULL, 
+	 start_timestamp datetime NOT NULL, 
+	 end_timestamp datetime NULL, 
+	 completion_timestamp datetime NULL, 
+	 time_spent real NOT NULL, progress real NOT NULL, 
+	 kind varchar(200) NOT NULL, 
+	 extra_fields text NOT NULL, 
+	 dataset_id char(32) NOT NULL REFERENCES kolibriauth_facilitydataset (id), 
+	 user_id char(32) NOT NULL REFERENCES kolibriauth_facilityuser (id));
+INSERT INTO logger_contentsummarylog VALUES(
+	'f710cbce4ea659ccde3c5d579ec030a6',
+	1,
+	'95926bc4eb815477ab9a7c82dccab51e',
+	'4574ee4d2fc31db39ac8a798f2f0de7d:user-spec:0fcb378207f13412b0437990fe280c11',
+
+	'bd660b472d6f4b27847b08e027c885cb', /* content_id */
+	'eb99f209f9c34ba192f6e695aeb37e4f', /* channel_id */
+
+	'2017-06-05 11:30:08.440000', /*start timestamp*/
+	'2017-06-05 11:33:06.142000', /*end timestamp*/
+	'2017-06-05 11:32:53.070000', /*complete timestamp*/
+	1.70636999999999972033e+02,1.0,
+	'exercise','{}',
+	'4574ee4d2fc31db39ac8a798f2f0de7d',
+	'5356dae9e08762547f4fe910cf6c1553' /*userid */
+	);
+
+/*todo: make more items in contentsummry log*/
+
+CREATE TABLE kolibriauth_facilityuser (password varchar(128) NOT NULL, last_login datetime NULL, id char(32) NOT NULL PRIMARY KEY, 
+	_morango_dirty_bit bool NOT NULL, _morango_source_id varchar(96) NOT NULL, _morango_partition varchar(128) NOT NULL,
+	 username varchar(30) NOT NULL, full_name varchar(120) NOT NULL, date_joined datetime NOT NULL, 
+	 dataset_id char(32) NOT NULL REFERENCES kolibriauth_facilitydataset (id), 
+	 facility_id char(32) NOT NULL REFERENCES kolibriauth_collection (id));
+INSERT INTO kolibriauth_facilityuser VALUES('pbkdf2_sha256$24000$XVmuUU4nJYIS$1UH1t9hW7V9MeTz5Xi7fRt5717WAW1B1+ITbZeR/ULE=',NULL,
+	'5356dae9e08762547f4fe910cf6c1553',1,'23da47368e014b1fbe7dc349d5da46b3','40ab2935082777580179b68d26be0e70:userspecific:5356dae9e08762547f4fe910cf6c1553','minghan','minghan','2017-06-17 21:41:45.964586','40ab2935082777580179b68d26be0e70','3cc97515ad8d53031c5542057717aad1');
+INSERT INTO kolibriauth_facilityuser VALUES('pbkdf2_sha256$24000$MNfmUpTCFxfU$K4LIxuvnB63IIblRwb3Y3DYD0VetsBW+LSPyVIvxMm8=','2017-06-17 23:17:38.799766',
+	'37104f79cf8173fe0708f4ded8ff7e5d',1,'66bb46d170b04d5fbb27e2f326280fcd','40ab2935082777580179b68d26be0e70:userspecific:37104f79cf8173fe0708f4ded8ff7e5d','sonia','sonia','2017-06-17 21:41:55.031326','40ab2935082777580179b68d26be0e70','3cc97515ad8d53031c5542057717aad1');
+
+CREATE TABLE logger_masterylog (id char(32) NOT NULL PRIMARY KEY, _morango_dirty_bit bool NOT NULL, _morango_source_id varchar(96) NOT NULL, 
+	_morango_partition varchar(128) NOT NULL, mastery_criterion text NOT NULL, start_timestamp datetime NOT NULL, end_timestamp datetime NULL, 
+	completion_timestamp datetime NULL, mastery_level integer NOT NULL, complete bool NOT NULL, dataset_id char(32) NOT NULL REFERENCES kolibriauth_facilitydataset (id),
+	 summarylog_id char(32) NOT NULL REFERENCES logger_contentsummarylog (id), user_id char(32) NOT NULL REFERENCES kolibriauth_facilityuser (id));
+
+INSERT INTO logger_masterylog VALUES('e7ac3c0ace5a5d77e81a5b6c5439de05',1,'0253a8d06a23294f344f83e6cf1857ac:1','4574ee4d2fc31db39ac8a798f2f0de7d:user-spec:0fcb378207f13412b0437990fe280c11','{type:m_of_n,m:4,n:5}','2017-06-05 11:33:19.043000',NULL,NULL,1,0,'4574ee4d2fc31db39ac8a798f2f0de7d','0253a8d06a23294f344f83e6cf1857ac','5356dae9e08762547f4fe910cf6c1553');
+INSERT INTO logger_masterylog VALUES('e19a3d479ccc8587bfd92be4a8adcf20',1,'55c67177bdbf590d3e6ebf8be993b027:1','4574ee4d2fc31db39ac8a798f2f0de7d:user-spec:0fcb378207f13412b0437990fe280c11','{type:m_of_n,m:4,n:5}','2017-06-05 12:34:43.903000',NULL,NULL,1,0,'4574ee4d2fc31db39ac8a798f2f0de7d','55c67177bdbf590d3e6ebf8be993b027','5356dae9e08762547f4fe910cf6c1553');
+INSERT INTO logger_masterylog VALUES('53fae83052b7173709049e50eeb392d2',1,'bd8a5969891bab8149cc7cf932734688:1','4574ee4d2fc31db39ac8a798f2f0de7d:user-spec:0fcb378207f13412b0437990fe280c11','{type:m_of_n,m:4,n:5}','2017-06-05 12:40:34.444000',NULL,NULL,1,0,'4574ee4d2fc31db39ac8a798f2f0de7d','bd8a5969891bab8149cc7cf932734688','97668b274966ebd1a46714fa8be2bc3a');
+INSERT INTO logger_masterylog VALUES('5980d5691f00eb19020dcc302668aa49',1,'c36007505e0124398cd6e31c88488baa:1','4574ee4d2fc31db39ac8a798f2f0de7d:user-spec:0fcb378207f13412b0437990fe280c11','{type:num_correct_in_a_row_5,m:5,n:5}','2017-06-05 12:41:00.639000',NULL,NULL,1,0,'4574ee4d2fc31db39ac8a798f2f0de7d','c36007505e0124398cd6e31c88488baa','97668b274966ebd1a46714fa8be2bc3a');

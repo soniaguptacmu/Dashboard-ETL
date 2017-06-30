@@ -1,8 +1,9 @@
 import schedule
 import configparser
+import logging
 
 from FetcherPlumber import FetcherPlumber
-
+import traceback
 if __name__ == "__main__":
 
     try:
@@ -12,12 +13,19 @@ if __name__ == "__main__":
 
         plumber = FetcherPlumber()
 
-        if (timeInterval > 0):
-            schedule.every(timeInterval).minutes.do(plumber.SourceToStagingJob)
-            while 1:
-                schedule.run_pending()
-        else:
-            raise ValueError('timeInterval is less than equal to zero!')
+        # for debugging pupose
+        plumber.SourceToStagingJob();
+
+        # if (timeInterval > 0):
+        #     schedule.every(timeInterval).minutes.do(plumber.SourceToStagingJob)
+        #     while 1:
+        #         schedule.run_pending()
+        #
+        # else:
+        #     raise ValueError('timeInterval is less than equal to zero!')
 
     except Exception as e:
-        print(e)
+        logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
+        logging.error('There is an exception in the code Schedular !')
+        logging.error(e)
+        logging.error(traceback.format_exc())
