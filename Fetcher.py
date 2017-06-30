@@ -8,7 +8,7 @@ class Fetcher(object):
 
     def cleanSink(self, sourceDbConnectionString, sourceTableName, sinkDbConnectionString):
 
-        # Fetch data structure from source table
+        # Fetch data structure from source Table
         sourceDbEngine = create_engine(sourceDbConnectionString)
         sourceDbEngine.echo = False
         metadata = MetaData(bind=sourceDbEngine)
