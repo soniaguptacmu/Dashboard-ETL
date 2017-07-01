@@ -10,7 +10,7 @@ from Fetcher import Fetcher
 
 class test_Fetcher(unittest.TestCase):
 
-    sinkDbConnectionString = 'mysql+pymysql://root:Expect@1234@localhost/hell?charset=utf8'
+    sinkDbConnectionString = 'mysql+pymysql://root:password@localhost/hell?charset=utf8'
 
     def test_transferSourceToSink(self):
 
