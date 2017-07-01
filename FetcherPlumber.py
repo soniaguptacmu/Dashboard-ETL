@@ -55,7 +55,7 @@ class FetcherPlumber(object):
     def LoadSourceToStaging(self, filePath,sinkDbConnectionString,sourceTableNames,extension):
         try:
 
-            dbFiles = self.fetchFilesFromFirectory(filePath, extension)
+            dbFiles = self.fetchFilesFromDirectory(filePath, extension)
             sourceTableNameList = sourceTableNames.split(",")
 
             # validate data fetched from configuration file
@@ -92,11 +92,11 @@ class FetcherPlumber(object):
             raise
 
     # fetch all sqlite files from the directory
-    def fetchFilesFromFirectory(self, directoryPath, extension):
+    def fetchFilesFromDirectory(self, directoryPath, extension):
         f = []
         for (dirpath, dirnames, filenames) in walk(directoryPath):
             for file in filenames:
-                #if file.endswith(extension):
+                if file.endswith(extension):
                     f.append(file)
 
         return f
