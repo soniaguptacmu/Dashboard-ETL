@@ -79,7 +79,7 @@ class FetcherPlumber(object):
                     sourcedbconnectionstring = 'sqlite:///' + dbfile
 
                     if (isCleaned == 0):
-                        obj.cleanSink(sourcedbconnectionstring, sourceTableName, sinkDbConnectionString)
+                        obj.cleansink(sourcedbconnectionstring, sourceTableName, sinkDbConnectionString)
                         isCleaned = 1
 
                     obj.transferSourceToSink(sourcedbconnectionstring, sourceTableName, sinkDbConnectionString)
