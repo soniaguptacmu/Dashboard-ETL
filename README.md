@@ -1,7 +1,7 @@
 # Kolibri-ETL
 
 # creating virtual environment
-python3 -m venv /Users/soniagupta/desktop/sem3/studio/DataFetcher/Kolibri-ETL
+python3 -m venv ../Kolibri-ETL
 source bin/activate
 
 # installing package using pip3 
