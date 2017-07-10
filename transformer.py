@@ -6,6 +6,9 @@ from sqlalchemy.sql import func
 from sqlalchemy.sql import select
 import uuid
 import json
+import logging
+import traceback
+import time
 
 class Transformer(object):
 	"""Perform the ETL job"""
@@ -56,8 +59,14 @@ class Transformer(object):
 								.filter(self.User_Info_Student.student_id==user_id)\
 								.update({"parent":collection_id})
 			self.nalanda_session.commit()
-		except:
-			pass
+			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.info('The synchronization of student information is completed at' + time.strftime("%c"))
+		except Exception as e:
+			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.error('There is an exception in the Transformer!')
+			logging.error(e)
+			logging.error(traceback.format_exc())
+			raise
 
 	def sync_class_info(self):
 		try:
@@ -85,8 +94,14 @@ class Transformer(object):
 								.filter(self.User_Info_Class.class_id==class_id)\
 								.update({"total_students":total})
 			self.nalanda_session.commit()
-		except:
-			pass
+			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.info('The synchronization of class information is completed at' + time.strftime("%c"))
+		except Exception as e:
+			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.error('There is an exception in the Transformer!')
+			logging.error(e)
+			logging.error(traceback.format_exc())
+			raise
 
 	def sync_school_info(self):
 		try:
@@ -109,38 +124,51 @@ class Transformer(object):
 								.filter(self.User_Info_School.school_id==school_id)\
 								.update({'total_students':total})
 			self.nalanda_session.commit()
-		except:
-			pass
+			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.info('The synchronization of school information is completed at' + time.strftime("%c"))
+		except Exception as e:
+			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.error('There is an exception in the Transformer!')
+			logging.error(e)
+			logging.error(traceback.format_exc())
+			raise
 
 	def sync_content(self):
 		try:
 			root_set = self.staging_session\
-							.query(self.Content_Node.c.id,self.Content_Node.c.title,self.Content_Node.c.kind)\
+							.query(self.Content_Node.c.id,self.Content_Node.c.title,self.Content_Node.c.kind,self.Content_Node.c.content_id)\
 							.filter(self.Content_Node.c.level==0)\
 							.all()
 			res = {}
 			res['id'] = ''
+			res['content_id'] = ''
 			res['name'] = ''
 			res['children'] = []
 			total = -1
 			for root in root_set:
-				dic = self.dfs_content_reader(root)
+				dic = self.dfs_content_reader(root,root[0])
 				res['children'].append(dic)
 			json_obj = json.dumps(res, ensure_ascii=False)
 			old_record = self.nalanda_session.query(self.Content.topic_id)\
 							.filter(self.Content.topic_id=='').first()
 			if not old_record:
-				nalanda_record = self.Content(topic_id='',topic_name='',total_questions=-1,sub_topics=json_obj)
+				nalanda_record = self.Content(topic_id='',content_id='',topic_name='',channel_id='',total_questions=-1,sub_topics=json_obj)
 				self.nalanda_session.add(nalanda_record)
 			else:
 				self.nalanda_session.query(self.Content)\
 							.filter(self.Content.topic_id=='')\
 							.update({'sub_topics':json_obj})
 			self.nalanda_session.commit()
-		except:
-			pass
+			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.info('The synchronization of content information is completed at' + time.strftime("%c"))
+		except Exception as e:
+			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.error('There is an exception in the Transformer!')
+			logging.error(e)
+			logging.error(traceback.format_exc())
+			raise
 		
-	def dfs_content_reader(self, root):
+	def dfs_content_reader(self, root, channel_id):
 		try:
 			if root[2] != 'topic':
 				exercise = self.staging_session\
@@ -154,16 +182,17 @@ class Transformer(object):
 				return res
 			else:
 				sub_level = self.staging_session\
-								.query(self.Content_Node.c.id,self.Content_Node.c.title,self.Content_Node.c.kind)\
+								.query(self.Content_Node.c.id,self.Content_Node.c.title,self.Content_Node.c.kind,self.Content_Node.c.content_id)\
 								.filter(self.Content_Node.c.parent_id==root[0]).all()
 				res = {}
 				res['id'] = root[0]
-				#res['content_id'] = root[1]
-				res['name'] = root[2]
+				res['channel_id'] = channel_id
+				res['content_id'] = root[3]
+				res['name'] = root[1]
 				res['children'] = []
 				total = 0
 				for node in sub_level:
-					node_res = self.dfs_content_reader(node)
+					node_res = self.dfs_content_reader(node,channel_id)
 					total += node_res['total']
 					if 'id' in node_res:
 						res['children'].append(node_res)
@@ -171,16 +200,22 @@ class Transformer(object):
 				json_obj = json.dumps(res, ensure_ascii=False)
 				old_record = self.nalanda_session.query(self.Content).filter(self.Content.topic_id==res['id']).first()
 				if not old_record:
-					nalanda_record = self.Content(topic_id=res['id'],topic_name=res['name'],total_questions=res['total'],sub_topics=json_obj)
+					nalanda_record = self.Content(topic_id=res['id'],content_id=res['content_id'],channel_id=res['channel_id'],
+													topic_name=res['name'],total_questions=res['total'],sub_topics=json_obj)
 					self.nalanda_session.add(nalanda_record)
 				else:
 					self.nalanda_session.query(self.Content)\
 								.filter(self.Content.topic_id==res['id'])\
-								.update({'topic_name':res['name'],'total_questions':res['total'],'sub_topics':json_obj})
+								.update({'content_id':res['content_id'],'channel_id':res['channel_id'],'topic_name':res['name'],\
+									'total_questions':res['total'],'sub_topics':json_obj})
 				self.nalanda_session.commit()
 				return res
-		except:
-			pass
+		except Exception as e:
+			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.error('There is an exception in the Transformer!')
+			logging.error(e)
+			logging.error(traceback.format_exc())
+			raise
 
 	def completed_questions_aggregation_student(self, start_date):
 		try:
@@ -197,7 +232,6 @@ class Transformer(object):
 						.group_by(join_mastery_log.c.date,join_mastery_log.c.user_id,join_mastery_log.c.summarylog_id)\
 						.all()		
 			for record in result_set:
-				#print(record)
 				_student_id = record[0]
 				student_id = self.uuid2int(_student_id)
 				topic_id = record[1]
@@ -207,7 +241,6 @@ class Transformer(object):
 				old_record = self.nalanda_session.query(self.Mastery_Level_Student).filter(self.Mastery_Level_Student.student_id==student_id\
 					,self.Mastery_Level_Student.topic_id==topic_id,self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
 					.first()
-				print(old_record)
 				if not old_record:
 					nalanda_record = self.Mastery_Level_Student(id=str(uuid.uuid4()),student_id=student_id,topic_id=topic_id,\
 											channel_id=channel_id,date=date,completed_questions=completed_questions)
@@ -218,8 +251,14 @@ class Transformer(object):
 									self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
 								.update({'completed_questions':completed_questions})
 			self.nalanda_session.commit()
-		except:
-			pass
+			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.info('The synchronization of student completed questions is completed at' + time.strftime("%c"))
+		except Exception as e:
+			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.error('There is an exception in the Transformer!')
+			logging.error(e)
+			logging.error(traceback.format_exc())
+			raise
 
 	def correct_questions_aggregation_student(self, start_date):
 		try:
@@ -236,7 +275,6 @@ class Transformer(object):
 						.group_by(join_mastery_log.c.date,join_mastery_log.c.user_id,join_mastery_log.c.summarylog_id)\
 						.all()		
 			for record in result_set:
-				#print(record)
 				_student_id = record[0]
 				student_id = self.uuid2int(_student_id)
 				topic_id = record[1]
@@ -246,7 +284,6 @@ class Transformer(object):
 				old_record = self.nalanda_session.query(self.Mastery_Level_Student).filter(self.Mastery_Level_Student.student_id==student_id\
 					,self.Mastery_Level_Student.topic_id==topic_id,self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
 					.first()
-				print(old_record)
 				if not old_record:
 					nalanda_record = self.Mastery_Level_Student(id=str(uuid.uuid4()),student_id=student_id,topic_id=topic_id,\
 											channel_id=channel_id,date=date,correct_questions=correct_questions)
@@ -257,8 +294,14 @@ class Transformer(object):
 									self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
 								.update({'correct_questions':correct_questions})
 			self.nalanda_session.commit()
-		except:
-			pass
+			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.info('The synchronization of student correct questions is completed at' + time.strftime("%c"))
+		except Exception as e:
+			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.error('There is an exception in the Transformer!')
+			logging.error(e)
+			logging.error(traceback.format_exc())
+			raise
 
 	def attempted_questions_aggregation_student(self, start_date):
 		try:
@@ -275,7 +318,6 @@ class Transformer(object):
 						.group_by(join_mastery_log.c.date,join_mastery_log.c.user_id,join_mastery_log.c.summarylog_id)\
 						.all()		
 			for record in result_set:
-				#print(record)
 				_student_id = record[0]
 				student_id = self.uuid2int(_student_id)
 				topic_id = record[1]
@@ -285,7 +327,6 @@ class Transformer(object):
 				old_record = self.nalanda_session.query(self.Mastery_Level_Student).filter(self.Mastery_Level_Student.student_id==student_id\
 					,self.Mastery_Level_Student.topic_id==topic_id,self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
 					.first()
-				print(old_record)
 				if not old_record:
 					nalanda_record = self.Mastery_Level_Student(id=str(uuid.uuid4()),student_id=student_id,topic_id=topic_id,\
 											channel_id=channel_id,date=date,attempt_questions=attempt_questions)
@@ -296,10 +337,14 @@ class Transformer(object):
 									self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
 								.update({'attempt_questions':attempt_questions})
 			self.nalanda_session.commit()
-		except:
-			pass
-
-
+			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.info('The synchronization of student attempted questions is completed at' + time.strftime("%c"))
+		except Exception as e:
+			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.error('There is an exception in the Transformer!')
+			logging.error(e)
+			logging.error(traceback.format_exc())
+			raise
 
 	def completed_student(self, start_date):
 		try:
@@ -308,7 +353,6 @@ class Transformer(object):
 							func.date(self.Content_Summary_Log.c.completion_timestamp),self.Content_Summary_Log.c.channel_id) \
 						.filter(self.Content_Summary_Log.c.completion_timestamp >= start_date)
 			for record in result_set:
-				#print(record)
 				_student_id = record[0]
 				student_id = self.uuid2int(_student_id)
 				topic_id = record[1]
@@ -317,7 +361,6 @@ class Transformer(object):
 				old_record = self.nalanda_session.query(self.Mastery_Level_Student).filter(self.Mastery_Level_Student.student_id==student_id\
 					,self.Mastery_Level_Student.topic_id==topic_id,self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
 					.first()
-				print(old_record)
 				if not old_record:
 					nalanda_record = self.Mastery_Level_Student(id=str(uuid.uuid4()),student_id=student_id,topic_id=topic_id,\
 											channel_id=channel_id,date=date,completed_topic=True)
@@ -328,8 +371,14 @@ class Transformer(object):
 									self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
 								.update({'completed_topic':True})
 			self.nalanda_session.commit()
-		except:
-			pass
+			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.info('The synchronization of topic completion status is completed at' + time.strftime("%c"))
+		except Exception as e:
+			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.error('There is an exception in the Transformer!')
+			logging.error(e)
+			logging.error(traceback.format_exc())
+			raise
 
 	def mastery_level_aggregation_class(self, start_date):
 		try:
@@ -366,8 +415,14 @@ class Transformer(object):
 									.update({'completed_questions':completed_questions,'correct_questions':correct_questions,\
 										'attempt_questions':attempt_questions,'completed_topic':completed_topic})
 			self.nalanda_session.commit()
-		except:
-			pass
+			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.info('The synchronization of class progress data is completed at' + time.strftime("%c"))
+		except Exception as e:
+			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.error('There is an exception in the Transformer!')
+			logging.error(e)
+			logging.error(traceback.format_exc())
+			raise
 
 	def mastery_level_aggregation_school(self, start_date):
 		try:
@@ -404,8 +459,14 @@ class Transformer(object):
 									.update({'completed_questions':completed_questions,'correct_questions':correct_questions,\
 										'attempt_questions':attempt_questions,'completed_topic':completed_topic})
 			self.nalanda_session.commit()
-		except:
-			pass
+			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.info('The synchronization of school progress data is completed at' + time.strftime("%c"))
+		except Exception as e:
+			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.error('There is an exception in the Transformer!')
+			logging.error(e)
+			logging.error(traceback.format_exc())
+			raise
 
 	def clear_resource(self):
 		self.nalanda_session.close()
