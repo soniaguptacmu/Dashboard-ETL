@@ -10,7 +10,7 @@ contentdirectorypath=ContentData/
 extension=sqlite3
 
 [ConnectionString]
-sinkDbConnectionString =Expect@1234@localhost/staging?charset=utf8
+sinkDbConnectionString =password@localhost/staging?charset=utf8
 stagingDbTransformer=mysql+mysqlconnector://root:@localhost/staging
 nalandaDbTransformer=mysql+mysqlconnector://root:@localhost/nalanda
 

@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d3519022-0fa7-4de6-98fe-c9b3e60862f1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Code/Transformer_plumber.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Code/try.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/transformer.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/try.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Code/Config" afterPath="$PROJECT_DIR$/Code/Config" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Code/Schedular.py" afterPath="$PROJECT_DIR$/Code/Schedular.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,11 +17,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Config" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Config" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Code/Config">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
-              <caret line="12" column="24" lean-forward="true" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+              <caret line="12" column="43" lean-forward="true" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -78,7 +71,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Transformer_plumber.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Transformer_plumber.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Code/Transformer_plumber.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-73">
@@ -140,10 +133,10 @@
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/Code/tests/test_FetcherPlumber.py" />
         <option value="$PROJECT_DIR$/Code/try.py" />
-        <option value="$PROJECT_DIR$/Code/Config" />
         <option value="$PROJECT_DIR$/Code/Fetcher.log" />
         <option value="$PROJECT_DIR$/Code/Schedular.py" />
         <option value="$PROJECT_DIR$/Code/Transformer_plumber.py" />
+        <option value="$PROJECT_DIR$/Code/Config" />
       </list>
     </option>
   </component>
@@ -819,14 +812,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Code/Config">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="24" lean-forward="true" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Code/Fetcher.log">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3642">
@@ -852,6 +837,14 @@
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Code/Config">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="43" lean-forward="true" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
+          <folding />
         </state>
       </provider>
     </entry>
