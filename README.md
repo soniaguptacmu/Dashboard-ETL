@@ -1,29 +1,25 @@
 # Kolibri-ETL
 
-####### Process for setting the environment on local
+# Process for setting the environment on local
 
-# creating virtual environment
+Step1: creating virtual environment.
 
 virtualenv --no-site-packages mydjangoappvenv
 
 source mydjangoappvenv/bin/activate
 
-# installing all packages using requirements.txt
+Step 2: installing all packages using requirements.txt
 
 pip3 install -r requirements.txt
 
 
-####### During Development
+# During Development
 
-# installing package using pip3 
+Step 1: installing package using pip3 
 
-pip3 install sqlalchemy
+pip3 install <package name>
 
-pip3 install schedule
-
-pip3 install PyMySQL
-
-# creating a dependency file
+Step 2: creating a dependency file
 
 pip3 freeze > requirements.txt
 
