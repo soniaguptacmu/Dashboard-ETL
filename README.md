@@ -2,7 +2,7 @@
 
 # Process for setting the environment on local
 
-Step1: creating virtual environment.
+Step 1: creating virtual environment.
 
 virtualenv --no-site-packages mydjangoappvenv
 
