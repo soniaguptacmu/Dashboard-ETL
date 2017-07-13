@@ -2,16 +2,21 @@
 
 # Process for setting the environment on local
 
-Step 1: creating virtual environment.
+Step 1: Installing prerequisites
+
+  brew install python3
+  
+  pip3 install virtualenv
+  
+Step 2: Creating virtual environment.
 
 virtualenv --no-site-packages mydjangoappvenv
 
 source mydjangoappvenv/bin/activate
 
-Step 2: installing all packages using requirements.txt
+Step 3: Installing all packages using requirements.txt
 
 pip3 install -r requirements.txt
-
 
 # Process of managing dependency during Development
 
