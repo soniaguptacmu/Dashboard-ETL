@@ -13,11 +13,11 @@ Step 2: installing all packages using requirements.txt
 pip3 install -r requirements.txt
 
 
-# During Development
+# Process of managing dependency during Development
 
 Step 1: installing package using pip3 
 
-pip3 install <package name>
+pip3 install package_name
 
 Step 2: creating a dependency file
 
