@@ -1,9 +1,6 @@
 import schedule
 import configparser
 import logging
-from time import  strftime
-
-from sqlalchemy import create_engine
 
 from FetcherPlumber import FetcherPlumber
 import traceback
