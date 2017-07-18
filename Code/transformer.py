@@ -59,10 +59,10 @@ class Transformer(object):
 								.filter(self.User_Info_Student.student_id==user_id)\
 								.update({"parent":collection_id})
 			self.nalanda_session.commit()
-			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
 			logging.info('The synchronization of student information is completed at' + time.strftime("%c"))
 		except Exception as e:
-			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
 			logging.error('There is an exception in the Transformer!')
 			logging.error(e)
 			logging.error(traceback.format_exc())
@@ -94,10 +94,10 @@ class Transformer(object):
 								.filter(self.User_Info_Class.class_id==class_id)\
 								.update({"total_students":total})
 			self.nalanda_session.commit()
-			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
 			logging.info('The synchronization of class information is completed at' + time.strftime("%c"))
 		except Exception as e:
-			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
 			logging.error('There is an exception in the Transformer!')
 			logging.error(e)
 			logging.error(traceback.format_exc())
@@ -124,10 +124,10 @@ class Transformer(object):
 								.filter(self.User_Info_School.school_id==school_id)\
 								.update({'total_students':total})
 			self.nalanda_session.commit()
-			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
 			logging.info('The synchronization of school information is completed at' + time.strftime("%c"))
 		except Exception as e:
-			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
 			logging.error('There is an exception in the Transformer!')
 			logging.error(e)
 			logging.error(traceback.format_exc())
@@ -159,10 +159,10 @@ class Transformer(object):
 							.filter(self.Content.topic_id=='')\
 							.update({'sub_topics':json_obj})
 			self.nalanda_session.commit()
-			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
 			logging.info('The synchronization of content information is completed at' + time.strftime("%c"))
 		except Exception as e:
-			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
 			logging.error('There is an exception in the Transformer!')
 			logging.error(e)
 			logging.error(traceback.format_exc())
@@ -211,7 +211,7 @@ class Transformer(object):
 				self.nalanda_session.commit()
 				return res
 		except Exception as e:
-			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
 			logging.error('There is an exception in the Transformer!')
 			logging.error(e)
 			logging.error(traceback.format_exc())
@@ -251,10 +251,10 @@ class Transformer(object):
 									self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
 								.update({'completed_questions':completed_questions})
 			self.nalanda_session.commit()
-			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
 			logging.info('The synchronization of student completed questions is completed at' + time.strftime("%c"))
 		except Exception as e:
-			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
 			logging.error('There is an exception in the Transformer!')
 			logging.error(e)
 			logging.error(traceback.format_exc())
@@ -294,10 +294,10 @@ class Transformer(object):
 									self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
 								.update({'correct_questions':correct_questions})
 			self.nalanda_session.commit()
-			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
 			logging.info('The synchronization of student correct questions is completed at' + time.strftime("%c"))
 		except Exception as e:
-			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
 			logging.error('There is an exception in the Transformer!')
 			logging.error(e)
 			logging.error(traceback.format_exc())
@@ -337,10 +337,10 @@ class Transformer(object):
 									self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
 								.update({'attempt_questions':attempt_questions})
 			self.nalanda_session.commit()
-			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
 			logging.info('The synchronization of student attempted questions is completed at' + time.strftime("%c"))
 		except Exception as e:
-			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
 			logging.error('There is an exception in the Transformer!')
 			logging.error(e)
 			logging.error(traceback.format_exc())
@@ -371,10 +371,10 @@ class Transformer(object):
 									self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
 								.update({'completed':True})
 			self.nalanda_session.commit()
-			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
 			logging.info('The synchronization of topic completion status is completed at' + time.strftime("%c"))
 		except Exception as e:
-			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
 			logging.error('There is an exception in the Transformer!')
 			logging.error(e)
 			logging.error(traceback.format_exc())
@@ -415,10 +415,10 @@ class Transformer(object):
 									.update({'completed_questions':completed_questions,'correct_questions':correct_questions,\
 										'attempt_questions':attempt_questions,'students_completed':completed_topic})
 			self.nalanda_session.commit()
-			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
 			logging.info('The synchronization of class progress data is completed at' + time.strftime("%c"))
 		except Exception as e:
-			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
 			logging.error('There is an exception in the Transformer!')
 			logging.error(e)
 			logging.error(traceback.format_exc())
@@ -459,10 +459,10 @@ class Transformer(object):
 									.update({'completed_questions':completed_questions,'correct_questions':correct_questions,\
 										'attempt_questions':attempt_questions,'students_completed':completed_topic})
 			self.nalanda_session.commit()
-			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
+			logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
 			logging.info('The synchronization of school progress data is completed at' + time.strftime("%c"))
 		except Exception as e:
-			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
 			logging.error('There is an exception in the Transformer!')
 			logging.error(e)
 			logging.error(traceback.format_exc())
