@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d3519022-0fa7-4de6-98fe-c9b3e60862f1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Schema/create_nalanda_latest.sql" afterPath="$PROJECT_DIR$/Schema/create_nalanda_latest.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Schema/create_staging.sql" afterPath="$PROJECT_DIR$/Schema/create_staging.sql" />
     </list>
@@ -29,21 +28,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="create_nalanda_latest.sql" pinned="false" current-in-tab="true">
+      <file leaf-file-name="create_nalanda_latest.sql" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Schema/create_nalanda_latest.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="24" lean-forward="true" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+            <state relative-caret-position="105">
+              <caret line="7" column="12" lean-forward="false" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="create_staging.sql" pinned="false" current-in-tab="false">
+      <file leaf-file-name="create_staging.sql" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Schema/create_staging.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="24" />
+            <state relative-caret-position="30">
+              <caret line="2" column="12" lean-forward="false" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -187,8 +186,8 @@
         <option value="$PROJECT_DIR$/Code/Fetcher.log" />
         <option value="$PROJECT_DIR$/Code/tests/test_Fetcher.py" />
         <option value="$PROJECT_DIR$/Code/Config" />
-        <option value="$PROJECT_DIR$/Schema/create_staging.sql" />
         <option value="$PROJECT_DIR$/Schema/create_nalanda_latest.sql" />
+        <option value="$PROJECT_DIR$/Schema/create_staging.sql" />
       </list>
     </option>
   </component>
@@ -816,18 +815,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Schema/create_staging.sql">
+    <entry file="file://$PROJECT_DIR$/Schema/create_nalanda_latest.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="24" />
+        <state relative-caret-position="105">
+          <caret line="7" column="12" lean-forward="false" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Schema/create_nalanda_latest.sql">
+    <entry file="file://$PROJECT_DIR$/Schema/create_staging.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="24" lean-forward="true" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+        <state relative-caret-position="30">
+          <caret line="2" column="12" lean-forward="false" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
           <folding />
         </state>
       </provider>
