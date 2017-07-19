@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d3519022-0fa7-4de6-98fe-c9b3e60862f1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Code/Config" afterPath="$PROJECT_DIR$/Code/Config" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Code/Transformer_plumber.py" afterPath="$PROJECT_DIR$/Code/Transformer_plumber.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Schema/create_nalanda_latest.sql" afterPath="$PROJECT_DIR$/Schema/create_nalanda_latest.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Schema/create_staging.sql" afterPath="$PROJECT_DIR$/Schema/create_staging.sql" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,8 +20,8 @@
       <file leaf-file-name="Config" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Code/Config">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state relative-caret-position="210">
+              <caret line="14" column="75" lean-forward="false" selection-start-line="14" selection-start-column="75" selection-end-line="14" selection-end-column="75" />
               <folding />
             </state>
           </provider>
@@ -762,8 +758,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Code/Config">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state relative-caret-position="210">
+          <caret line="14" column="75" lean-forward="false" selection-start-line="14" selection-start-column="75" selection-end-line="14" selection-end-column="75" />
           <folding />
         </state>
       </provider>
