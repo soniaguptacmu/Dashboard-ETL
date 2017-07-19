@@ -4,7 +4,6 @@ from sqlalchemy import create_engine
 import datetime
 import logging
 
-
 class Transformer_plumber(object):
     def execute(self):
 
