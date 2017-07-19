@@ -16,5 +16,5 @@ nalandaDbTransformer=mysql+mysqlconnector://root:nalandapassword@localhost/nalan
 
 [SourceDatabase]
 logtablenames=kolibriauth_facilitydataset,kolibriauth_facilityuser,logger_contentsessionlog,kolibriauth_collection,kolibriauth_membership,kolibriauth_role,logger_masterylog,logger_attemptlog,logger_contentsummarylog
-contentnames=Content_contentnode,Content_assessmentmetadata
+contentnames=content_contentnode,content_assessmentmetadata
 
