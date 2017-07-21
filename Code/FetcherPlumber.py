@@ -22,8 +22,6 @@ class FetcherPlumber(object):
         logfilePath = config.get('SourceLocation', 'logdirectoryPath')
         logsourceTableNames = config.get('SourceDatabase', 'logtablenames')
 
-        print('log table names')
-        print(logsourceTableNames)
         logging.info('log table names')
         logging.info(logsourceTableNames)
 
@@ -31,25 +29,20 @@ class FetcherPlumber(object):
         contentfilePath = config.get('SourceLocation', 'contentdirectorypath')
         contentsourceTableNames = config.get('SourceDatabase', 'contentnames')
 
-        print('content table names')
-        print(contentfilePath)
         logging.info('content table names')
-        logging.info(contentfilePath)
+        logging.info(contentsourceTableNames)
 
-        sinkDbConnectionString = 'mysql+pymysql://root:' + config.get('ConnectionString',
-                                                                      'sinkDbConnectionString')
+        sinkDbConnectionString = config.get('ConnectionString','sinkDbConnectionString')
         extension = config.get('SourceLocation', 'extension')
 
         # load content data
         self.LoadSourceToStaging(contentfilePath,sinkDbConnectionString,contentsourceTableNames,extension)
 
-        print('Successfully fetched all the content data!')
-        logging.info('Successfully fetched all the data!')
+        logging.info('Successfully fetched all the content data!')
 
         # load log data
         self.LoadSourceToStaging(logfilePath,sinkDbConnectionString,logsourceTableNames,extension)
 
-        print('Successfully fetched all the log data!')
         logging.info('Successfully fetched all the log data!')
 
     def LoadSourceToStaging(self, filePath,sinkDbConnectionString,sourceTableNames,extension):

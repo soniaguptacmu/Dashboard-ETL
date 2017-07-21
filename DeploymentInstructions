@@ -1,0 +1,73 @@
+-----------------------------Steps to setup Database----------------------------------------------------
+1. Install database. Dont do it if database is installed already.
+	sudo apt-get update
+	sudo apt-get install -y mysql-server
+
+2. Create password:nalandapassword, user:root
+	sudo mysql_secure_installation
+
+3. check the status of the running system
+	systemctl status mysql.service
+---------------------------------------------------------------------------------------------------------
+-----------------------------Steps for deploying new version of code ------------------------------------
+1. Install git
+	sudo apt-get install git
+
+2. Create directory structure if not present already
+	mkdir Nalanda
+	cd Nalanda/
+
+3. Copy code using git clone
+	git clone https://github.com/renfeisong/Kolibri-ETL.git
+	cd Kolibri-ETL/Schema/
+
+4. Create staging db by running following command
+	mysql -u root -pnalandapassword --local-infile=1 < create_staging.sql
+
+5. Create nalanda db by running following command
+mysql -u root -pnalandapassword --local-infile=1 < create_nalanda_latest.sql
+
+6. Change 'Config' file for changing password or frequency of schedular if needed. Put different interval under section 'frequencyMinutes' if it is needed.
+
+7. Install dependencies
+	sudo apt install python3-pip
+	pip3 install virtualenv
+
+8. create virtual environment
+	cd Code
+	virtualenv --no-site-packages kolibrietl
+	source kolibrietl/bin/activate
+
+9. install mysqlclient
+	sudo apt-get install -y python-dev libmysqlclient-dev
+	sudo apt-get install python3-dev
+
+10. install dependencies
+	pip3 install -r requirements.txt
+
+---------------------------------------------------------------------------------------------------------
+-----------------------------Steps for running schedular-------------------------------------------------
+Go to Code folder to run folllowing commands
+1. For making python file as executable run following command
+	chmod +x Schedular.py
+
+2. For run synchroniser code in backend run following command
+	nohup python3 Schedular.py &
+
+3. press enter
+---------------------------------------------------------------------------------------------------------
+-----------------------------Steps for kill schedular---------------------------------------------------
+1. Run folllowing command
+	kill -9 <process id>
+---------------------------------------------------------------------------------------------------------
+----------------------------Steps for cleaning database--------------------------------------------------
+1. login into mysql
+	mysql -u root -pnalandapassword
+2. drop database staging;
+3. drop database nalanda;
+4. Go to folder 'schema'
+5. run following two commands
+	mysql -u root -pnalandapassword --local-infile=1 < create_staging.sql
+	mysql -u root -pnalandapassword --local-infile=1 < create_nalanda_latest.sql
+---------------------------------------------------------------------------------------------------------
+

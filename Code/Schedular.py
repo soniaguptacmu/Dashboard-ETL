@@ -1,9 +1,9 @@
 import schedule
 import configparser
 import logging
-
 from FetcherPlumber import FetcherPlumber
 import traceback
+
 
 from Transformer_plumber import Transformer_plumber
 
@@ -23,12 +23,12 @@ if __name__ == "__main__":
         config.read('Config')
         timeInterval = int(config.get('TimeSettings', 'frequencyMinutes'))
 
-        if (timeInterval > 0):
+        if (timeInterval >= 0):
             schedule.every(timeInterval).minutes.do(doETL)
             while 1:
                 schedule.run_pending()
         else:
-            raise ValueError('timeInterval is less than equal to zero!')
+            raise ValueError('timeInterval is less than zero!')
 
     except Exception as e:
         logging.basicConfig(filename='Fetcher.log', level=logging.ERROR)
