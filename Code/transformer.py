@@ -140,24 +140,22 @@ class Transformer(object):
 							.filter(self.Content_Node.c.level==0)\
 							.all()
 			res = {}
-			res['id'] = ''
-			res['content_id'] = ''
-			res['name'] = ''
-			res['children'] = []
-			total = -1
+			res['topics'] = []
+			total = 0
 			for root in root_set:
 				dic = self.dfs_content_reader(root,root[0])
-				res['children'].append(dic)
+				res['topics'].append(dic)
+				total += dic['total']
 			json_obj = json.dumps(res, ensure_ascii=False)
 			old_record = self.nalanda_session.query(self.Content.topic_id)\
 							.filter(self.Content.topic_id=='').first()
 			if not old_record:
-				nalanda_record = self.Content(topic_id='',content_id='',topic_name='',channel_id='',total_questions=-1,sub_topics=json_obj)
+				nalanda_record = self.Content(topic_id='',content_id='',topic_name='',channel_id='',total_questions=total,sub_topics=json_obj)
 				self.nalanda_session.add(nalanda_record)
 			else:
 				self.nalanda_session.query(self.Content)\
 							.filter(self.Content.topic_id=='')\
-							.update({'sub_topics':json_obj})
+							.update({'sub_topics':json_obj,'total_questions':total})
 			self.nalanda_session.commit()
 			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
 			logging.info('The synchronization of content information is completed at' + time.strftime("%c"))
@@ -186,8 +184,8 @@ class Transformer(object):
 								.filter(self.Content_Node.c.parent_id==root[0]).all()
 				res = {}
 				res['id'] = root[0]
-				res['channel_id'] = channel_id
-				res['content_id'] = root[3]
+				res['channelId'] = channel_id
+				res['contentId'] = root[3]
 				res['name'] = root[1]
 				res['children'] = []
 				total = 0
@@ -200,13 +198,13 @@ class Transformer(object):
 				json_obj = json.dumps(res, ensure_ascii=False)
 				old_record = self.nalanda_session.query(self.Content).filter(self.Content.topic_id==res['id']).first()
 				if not old_record:
-					nalanda_record = self.Content(topic_id=res['id'],content_id=res['content_id'],channel_id=res['channel_id'],
+					nalanda_record = self.Content(topic_id=res['id'],content_id=res['contentId'],channel_id=res['channelId'],
 													topic_name=res['name'],total_questions=res['total'],sub_topics=json_obj)
 					self.nalanda_session.add(nalanda_record)
 				else:
 					self.nalanda_session.query(self.Content)\
 								.filter(self.Content.topic_id==res['id'])\
-								.update({'content_id':res['content_id'],'channel_id':res['channel_id'],'topic_name':res['name'],\
+								.update({'content_id':res['contentId'],'channel_id':res['channelId'],'topic_name':res['name'],\
 									'total_questions':res['total'],'sub_topics':json_obj})
 				self.nalanda_session.commit()
 				return res
@@ -238,18 +236,35 @@ class Transformer(object):
 				channel_id = record[3]
 				date = record[2]
 				completed_questions = record[4]
-				old_record = self.nalanda_session.query(self.Mastery_Level_Student).filter(self.Mastery_Level_Student.student_id_id==student_id\
-					,self.Mastery_Level_Student.content_id==content_id,self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
-					.first()
-				if not old_record:
-					nalanda_record = self.Mastery_Level_Student(id=str(uuid.uuid4()),student_id_id=student_id,content_id=content_id,\
-											channel_id=channel_id,date=date,completed_questions=completed_questions)
-					self.nalanda_session.add(nalanda_record)
-				else:
-					self.nalanda_session.query(self.Mastery_Level_Student)\
-								.filter(self.Mastery_Level_Student.student_id_id==student_id,self.Mastery_Level_Student.content_id==content_id,\
-									self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
-								.update({'completed_questions':completed_questions})
+				topic_ids = self.staging_session.query(self.Content_Node.c.id).filter(self.Content_Node.c.content_id==content_id).all()
+				ids = set()
+				for topic_id in topic_ids:
+					# id for the leaf-level topic
+					current_id = topic_id[0]
+					while current_id:
+						ids.add(current_id)
+						parent_id = self.staging_session.query(self.Content_Node.c.parent_id).filter(self.Content_Node.c.id==current_id).first()
+						# update the current id with the parent id
+						current_id = parent_id[0]
+				ids.add('')
+				for id in ids:
+					temp = channel_id
+					if id == '':
+						channel_id = ''
+					# old_record is a tuple
+					old_record = self.nalanda_session.query(self.Mastery_Level_Student.completed_questions)\
+						.filter(self.Mastery_Level_Student.student_id_id==student_id,self.Mastery_Level_Student.content_id==id,\
+						self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date).first()
+					if not old_record:
+						nalanda_record = self.Mastery_Level_Student(id=str(uuid.uuid4()),student_id_id=student_id,content_id=id,\
+												channel_id=channel_id,date=date,completed_questions=completed_questions)
+						self.nalanda_session.add(nalanda_record)
+					else:
+						self.nalanda_session.query(self.Mastery_Level_Student)\
+									.filter(self.Mastery_Level_Student.student_id_id==student_id,self.Mastery_Level_Student.content_id==id,\
+										self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
+									.update({'completed_questions':old_record[0]+completed_questions})
+					channel_id = temp
 			self.nalanda_session.commit()
 			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
 			logging.info('The synchronization of student completed questions is completed at' + time.strftime("%c"))
@@ -281,18 +296,34 @@ class Transformer(object):
 				channel_id = record[3]
 				date = record[2]
 				correct_questions = record[4]
-				old_record = self.nalanda_session.query(self.Mastery_Level_Student).filter(self.Mastery_Level_Student.student_id_id==student_id\
-					,self.Mastery_Level_Student.content_id==content_id,self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
-					.first()
-				if not old_record:
-					nalanda_record = self.Mastery_Level_Student(id=str(uuid.uuid4()),student_id_id=student_id,content_id=content_id,\
-											channel_id=channel_id,date=date,correct_questions=correct_questions)
-					self.nalanda_session.add(nalanda_record)
-				else:
-					self.nalanda_session.query(self.Mastery_Level_Student)\
-								.filter(self.Mastery_Level_Student.student_id_id==student_id,self.Mastery_Level_Student.content_id==content_id,\
-									self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
-								.update({'correct_questions':correct_questions})
+				topic_ids = self.staging_session.query(self.Content_Node.c.id).filter(self.Content_Node.c.content_id==content_id).all()
+				ids = set()
+				for topic_id in topic_ids:
+					# id for the leaf-level topic
+					current_id = topic_id[0]
+					while current_id:
+						ids.add(current_id)
+						parent_id = self.staging_session.query(self.Content_Node.c.parent_id).filter(self.Content_Node.c.id==current_id).first()
+						# update the current id with the parent id
+						current_id = parent_id[0]
+				ids.add('')
+				for id in ids:
+					temp = channel_id
+					if id == '':
+						channel_id = ''
+					old_record = self.nalanda_session.query(self.Mastery_Level_Student.correct_questions)\
+						.filter(self.Mastery_Level_Student.student_id_id==student_id,self.Mastery_Level_Student.content_id==id,\
+						self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date).first()
+					if not old_record:
+						nalanda_record = self.Mastery_Level_Student(id=str(uuid.uuid4()),student_id_id=student_id,content_id=id,\
+												channel_id=channel_id,date=date,correct_questions=correct_questions)
+						self.nalanda_session.add(nalanda_record)
+					else:
+						self.nalanda_session.query(self.Mastery_Level_Student)\
+									.filter(self.Mastery_Level_Student.student_id_id==student_id,self.Mastery_Level_Student.content_id==id,\
+										self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
+									.update({'correct_questions':old_record[0]+correct_questions})
+					channel_id = temp
 			self.nalanda_session.commit()
 			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
 			logging.info('The synchronization of student correct questions is completed at' + time.strftime("%c"))
@@ -316,7 +347,7 @@ class Transformer(object):
 							self.Content_Summary_Log.c.channel_id,func.count(join_mastery_log.c.user_id))\
 						.join(self.Content_Summary_Log, self.Content_Summary_Log.c.id==join_mastery_log.c.summarylog_id)\
 						.group_by(join_mastery_log.c.date,join_mastery_log.c.user_id,join_mastery_log.c.summarylog_id)\
-						.all()		
+						.all()
 			for record in result_set:
 				_student_id = record[0]
 				student_id = self.uuid2int(_student_id)
@@ -324,18 +355,34 @@ class Transformer(object):
 				channel_id = record[3]
 				date = record[2]
 				attempt_questions = record[4]
-				old_record = self.nalanda_session.query(self.Mastery_Level_Student).filter(self.Mastery_Level_Student.student_id_id==student_id\
-					,self.Mastery_Level_Student.content_id==content_id,self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
-					.first()
-				if not old_record:
-					nalanda_record = self.Mastery_Level_Student(id=str(uuid.uuid4()),student_id_id=student_id,content_id=content_id,\
-											channel_id=channel_id,date=date,attempt_questions=attempt_questions)
-					self.nalanda_session.add(nalanda_record)
-				else:
-					self.nalanda_session.query(self.Mastery_Level_Student)\
-								.filter(self.Mastery_Level_Student.student_id_id==student_id,self.Mastery_Level_Student.content_id==content_id,\
-									self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
-								.update({'attempt_questions':attempt_questions})
+				topic_ids = self.staging_session.query(self.Content_Node.c.id).filter(self.Content_Node.c.content_id==content_id).all()
+				ids = set()
+				for topic_id in topic_ids:
+					# id for the leaf-level topic
+					current_id = topic_id[0]
+					while current_id:
+						ids.add(current_id)
+						parent_id = self.staging_session.query(self.Content_Node.c.parent_id).filter(self.Content_Node.c.id==current_id).first()
+						# update the current id with the parent id
+						current_id = parent_id[0]
+				ids.add('')
+				for id in ids:
+					temp = channel_id
+					if id == '':
+						channel_id = ''
+					old_record = self.nalanda_session.query(self.Mastery_Level_Student.attempt_questions)\
+						.filter(self.Mastery_Level_Student.student_id_id==student_id,self.Mastery_Level_Student.content_id==id,\
+						self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date).first()
+					if not old_record:
+						nalanda_record = self.Mastery_Level_Student(id=str(uuid.uuid4()),student_id_id=student_id,content_id=id,\
+												channel_id=channel_id,date=date,attempt_questions=attempt_questions)
+						self.nalanda_session.add(nalanda_record)
+					else:
+						self.nalanda_session.query(self.Mastery_Level_Student)\
+									.filter(self.Mastery_Level_Student.student_id_id==student_id,self.Mastery_Level_Student.content_id==id,\
+										self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
+									.update({'attempt_questions':old_record[0]+attempt_questions})
+					channel_id = temp
 			self.nalanda_session.commit()
 			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
 			logging.info('The synchronization of student attempted questions is completed at' + time.strftime("%c"))
@@ -461,6 +508,18 @@ class Transformer(object):
 			self.nalanda_session.commit()
 			logging.basicConfig(filename='Transformer.log', level=logging.INFO)
 			logging.info('The synchronization of school progress data is completed at' + time.strftime("%c"))
+		except Exception as e:
+			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
+			logging.error('There is an exception in the Transformer!')
+			logging.error(e)
+			logging.error(traceback.format_exc())
+			raise
+
+	def clear_log(self, start_date):
+		try:
+			self.nalanda_session.query(self.Mastery_Level_Student).filter(self.Mastery_Level_Student.date>=start_date).delete()
+			self.nalanda_session.query(self.Mastery_Level_Class).filter(self.Mastery_Level_Class.date>=start_date).delete()
+			self.nalanda_session.query(self.Mastery_Level_School).filter(self.Mastery_Level_School.date>=start_date).delete()
 		except Exception as e:
 			logging.basicConfig(filename='Transformer.log', level=logging.ERROR)
 			logging.error('There is an exception in the Transformer!')

@@ -200,13 +200,13 @@ class Transformer(object):
 				json_obj = json.dumps(res, ensure_ascii=False)
 				old_record = self.nalanda_session.query(self.Content).filter(self.Content.topic_id==res['id']).first()
 				if not old_record:
-					nalanda_record = self.Content(topic_id=res['id'],content_id=res['content_id'],channel_id=res['channel_id'],
+					nalanda_record = self.Content(topic_id=res['id'],content_id=res['contentId'],channel_id=res['channelId'],
 													topic_name=res['name'],total_questions=res['total'],sub_topics=json_obj)
 					self.nalanda_session.add(nalanda_record)
 				else:
 					self.nalanda_session.query(self.Content)\
 								.filter(self.Content.topic_id==res['id'])\
-								.update({'content_id':res['content_id'],'channel_id':res['channel_id'],'topic_name':res['name'],\
+								.update({'content_id':res['contentId'],'channel_id':res['channelId'],'topic_name':res['name'],\
 									'total_questions':res['total'],'sub_topics':json_obj})
 				self.nalanda_session.commit()
 				return res
