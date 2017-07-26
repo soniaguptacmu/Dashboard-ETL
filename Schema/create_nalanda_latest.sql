@@ -3,9 +3,9 @@
 -- Host: localhost    Database: nalanda
 -- ------------------------------------------------------
 -- Server version	5.7.17
-DROP DATABASE IF EXISTS nalanda;
-CREATE DATABASE nalanda;
-use nalanda;
+DROP DATABASE IF EXISTS nalandatest1;
+CREATE DATABASE nalandatest1;
+use nalandatest1;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -367,6 +367,7 @@ CREATE TABLE `nalanda_masterylevelclass` (
   KEY `nalanda_masterylevel_class_id_id_361baeb7_fk_nalanda_u` (`class_id_id`),
   CONSTRAINT `nalanda_masterylevel_class_id_id_361baeb7_fk_nalanda_u` FOREIGN KEY (`class_id_id`) REFERENCES `nalanda_userinfoclass` (`class_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+create index index2 on nalanda_masterylevelclass(class_id_id,date);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -399,6 +400,7 @@ CREATE TABLE `nalanda_masterylevelschool` (
   KEY `nalanda_masterylevel_school_id_id_aea33f2a_fk_nalanda_u` (`school_id_id`),
   CONSTRAINT `nalanda_masterylevel_school_id_id_aea33f2a_fk_nalanda_u` FOREIGN KEY (`school_id_id`) REFERENCES `nalanda_userinfoschool` (`school_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+create index index3 on nalanda_masterylevelschool(school_id_id,date);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -431,6 +433,7 @@ CREATE TABLE `nalanda_masterylevelstudent` (
   KEY `nalanda_masterylevel_student_id_id_1f19f5b4_fk_nalanda_u` (`student_id_id`),
   CONSTRAINT `nalanda_masterylevel_student_id_id_1f19f5b4_fk_nalanda_u` FOREIGN KEY (`student_id_id`) REFERENCES `nalanda_userinfostudent` (`student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+create index index1 on nalanda_masterylevelstudent(student_id_id,date);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

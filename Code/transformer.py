@@ -40,24 +40,30 @@ class Transformer(object):
 
 	def sync_student_info(self):
 		try:
+			student_mapping = self.staging_session\
+							.query(self.Membership.c.collection_id,self.Facility_User.c.id,self.Facility_User.c.username)\
+							.join(self.Facility_User, self.Membership.c.user_id==self.Facility_User.c.id).subquery()
 			result_set = self.staging_session\
-							.query(self.Facility_User.c.id,self.Facility_User.c.username,self.Membership.c.collection_id)\
-							.join(self.Membership, self.Membership.c.user_id==self.Facility_User.c.id).all()
+							.query(student_mapping,self.Collection.c.level,self.Collection.c.parent_id)\
+							.join(self.Collection,student_mapping.c.collection_id==self.Collection.c.id).all()
+			print(len(result_set))
 			for record in result_set:
-				_user_id = record[0]
-				user_id = self.uuid2int(_user_id)
-				_collection_id = record[2]
-				collection_id = self.uuid2int(_collection_id)
-				username = record[1]
-				old_record = self.nalanda_session.query(self.User_Info_Student)\
-								.filter(self.User_Info_Student.student_id==user_id).first()
-				if not old_record:
-					nalanda_record = self.User_Info_Student(student_id=user_id,student_name=username,parent=collection_id)
-					self.nalanda_session.add(nalanda_record)
-				else:
-					self.nalanda_session.query(self.User_Info_Student)\
-								.filter(self.User_Info_Student.student_id==user_id)\
-								.update({"parent":collection_id})
+				level = record[3]
+				if level==1:
+					_user_id = record[1]
+					user_id = self.uuid2int(_user_id)
+					username = record[2]
+					_collection_id = record[0]
+					collection_id = self.uuid2int(_collection_id)
+					old_record = self.nalanda_session.query(self.User_Info_Student)\
+									.filter(self.User_Info_Student.student_id==user_id).first()
+					if not old_record:
+						nalanda_record = self.User_Info_Student(student_id=user_id,student_name=username,parent=collection_id)
+						self.nalanda_session.add(nalanda_record)
+					else:
+						self.nalanda_session.query(self.User_Info_Student)\
+									.filter(self.User_Info_Student.student_id==user_id)\
+									.update({"parent":collection_id})
 			self.nalanda_session.commit()
 			logging.basicConfig(filename='Fetcher.log', level=logging.INFO)
 			logging.info('The synchronization of student information is completed at' + time.strftime("%c"))
@@ -76,6 +82,7 @@ class Transformer(object):
 								.group_by(self.Membership.c.collection_id).subquery()
 			result_set = self.staging_session\
 							.query(self.Collection.c.id,self.Collection.c.name,self.Collection.c.parent_id,student_count)\
+							.filter(self.Collection.c.level==1)\
 							.join(student_count, student_count.c.collection_id==self.Collection.c.id).all()
 			for record in result_set:
 				_class_id = record[0]
@@ -105,15 +112,21 @@ class Transformer(object):
 
 	def sync_school_info(self):
 		try:
+			students = self.staging_session\
+								.query(self.Facility_User.c.id,self.Facility_User.c.facility_id, self.Membership.c.collection_id)\
+								.join(self.Membership, self.Membership.c.user_id==self.Facility_User.c.id).subquery()
+			student_filter = self.staging_session\
+							.query(students,self.Collection.c.level).join(self.Collection, students.c.collection_id==self.Collection.c.id)\
+							.filter(self.Collection.c.level==1).subquery()
 			result_set = self.staging_session\
-							.query(self.Collection.c.id,self.Collection.c.name,func.count(self.Facility_User.c.id))\
-							.join(self.Facility_User, self.Collection.c.id==self.Facility_User.c.facility_id)\
-							.group_by(self.Facility_User.c.facility_id).all()
+							.query(func.count(student_filter.c.id),student_filter.c.facility_id,self.Collection.c.name)\
+							.group_by(student_filter.c.facility_id)\
+							.join(self.Collection,self.Collection.c.id==student_filter.c.facility_id).all()
 			for record in result_set:
-				_school_id = record[0]
+				_school_id = record[1]
 				school_id = self.uuid2int(_school_id)
-				school_name = record[1]
-				total = record[2]
+				school_name = record[2]
+				total = record[0]
 				old_record = self.nalanda_session.query(self.User_Info_School)\
 								.filter(self.User_Info_School.school_id==school_id).first()
 				if not old_record:
@@ -236,6 +249,10 @@ class Transformer(object):
 				channel_id = record[3]
 				date = record[2]
 				completed_questions = record[4]
+				student_check = self.nalanda_session.query(self.User_Info_Student.student_id)\
+									.filter(self.User_Info_Student.student_id==student_id).all()
+				if len(student_check)==0:
+					continue
 				topic_ids = self.staging_session.query(self.Content_Node.c.id).filter(self.Content_Node.c.content_id==content_id).all()
 				ids = set()
 				for topic_id in topic_ids:
@@ -296,6 +313,10 @@ class Transformer(object):
 				channel_id = record[3]
 				date = record[2]
 				correct_questions = record[4]
+				student_check = self.nalanda_session.query(self.User_Info_Student.student_id)\
+									.filter(self.User_Info_Student.student_id==student_id).all()
+				if len(student_check)==0:
+					continue
 				topic_ids = self.staging_session.query(self.Content_Node.c.id).filter(self.Content_Node.c.content_id==content_id).all()
 				ids = set()
 				for topic_id in topic_ids:
@@ -355,6 +376,10 @@ class Transformer(object):
 				channel_id = record[3]
 				date = record[2]
 				attempt_questions = record[4]
+				student_check = self.nalanda_session.query(self.User_Info_Student.student_id)\
+									.filter(self.User_Info_Student.student_id==student_id).all()
+				if len(student_check)==0:
+					continue
 				topic_ids = self.staging_session.query(self.Content_Node.c.id).filter(self.Content_Node.c.content_id==content_id).all()
 				ids = set()
 				for topic_id in topic_ids:
@@ -405,6 +430,10 @@ class Transformer(object):
 				content_id = record[1]
 				channel_id = record[3]
 				date = record[2]
+				student_check = self.nalanda_session.query(self.User_Info_Student.student_id)\
+									.filter(self.User_Info_Student.student_id==student_id).all()
+				if len(student_check)==0:
+					continue
 				old_record = self.nalanda_session.query(self.Mastery_Level_Student).filter(self.Mastery_Level_Student.student_id_id==student_id\
 					,self.Mastery_Level_Student.content_id==content_id,self.Mastery_Level_Student.channel_id==channel_id,self.Mastery_Level_Student.date==date)\
 					.first()
