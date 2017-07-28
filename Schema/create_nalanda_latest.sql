@@ -3,9 +3,9 @@
 -- Host: localhost    Database: nalanda
 -- ------------------------------------------------------
 -- Server version	5.7.17
-DROP DATABASE IF EXISTS nalandatest1;
-CREATE DATABASE nalandatest1;
-use nalandatest1;
+DROP DATABASE IF EXISTS nalanda;
+CREATE DATABASE nalanda;
+use nalanda;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
