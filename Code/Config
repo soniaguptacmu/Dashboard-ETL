@@ -10,11 +10,10 @@ contentdirectorypath=../ContentData/
 extension=sqlite3
 
 [ConnectionString]
-sinkDbConnectionString=mysql+pymysql://root:@localhost/stagingtest?charset=utf8
-stagingDbTransformer=mysql+mysqlconnector://root:@localhost/stagingtest?charset=utf8
-nalandaDbTransformer=mysql+mysqlconnector://root:@localhost/nalandatest?charset=utf8
+sinkDbConnectionString=mysql+pymysql://root:nalandapassword@localhost/staging?charset=utf8
+stagingDbTransformer=mysql+mysqlconnector://root:nalandapassword@localhost/staging?charset=utf8
+nalandaDbTransformer=mysql+mysqlconnector://root:nalandapassword@localhost/nalanda?charset=utf8
 
 [SourceDatabase]
 logtablenames=kolibriauth_facilityuser,logger_contentsessionlog,kolibriauth_collection,kolibriauth_membership,kolibriauth_role,logger_masterylog,logger_attemptlog,logger_contentsummarylog
 contentnames=content_contentnode,content_assessmentmetadata
-
